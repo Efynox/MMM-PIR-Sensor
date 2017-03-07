@@ -73,6 +73,13 @@ The following properties can be configured:
 				<br><b>Default value:</b> <code>1</code>
 			</td>
 		</tr>
+		<tr>
+			<td><code>useVcgencmd</code></td>
+			<td>Use vcgencmd instead of tvservice.<br>
+				<br><b>Possible values:</b> <code>boolean</code>
+				<br><b>Default value:</b> <code>false</code>
+			</td>
+		</tr>
 	</tbody>
 </table>
 

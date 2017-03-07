@@ -16,7 +16,8 @@ Module.register('MMM-PIR-Sensor',{
 		relayPIN: false,
 		powerSaving: true,
 		relayOnState: 1,
-		powerSavingDelay: 0
+		powerSavingDelay: 0,
+		useVcgencmd: false
 	},
 
 	// Override socket notification handler.

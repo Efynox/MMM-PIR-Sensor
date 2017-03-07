@@ -21,11 +21,16 @@ module.exports = NodeHelper.create({
       this.relay.writeSync(this.config.relayOnState);
     }
     else if (this.config.relayPIN == false){
-      // Check if hdmi output is already on
-      exec("/opt/vc/bin/tvservice -s").stdout.on('data', function(data) {
-        if (data.indexOf("0x120002") !== -1)
-          exec("/opt/vc/bin/tvservice --preferred && chvt 6 && chvt 7", null);
-      });
+      if (this.config.useVcgencmd) {
+        exec("vcgencmd display_power 1");
+      }
+      else {
+        // Check if hdmi output is already on
+        exec("/opt/vc/bin/tvservice -s").stdout.on('data', function(data) {
+          if (data.indexOf("0x120002") !== -1)
+            exec("/opt/vc/bin/tvservice --preferred && chvt 6 && chvt 7", null);
+        });
+      }
     }
   },
 
@@ -34,7 +39,12 @@ module.exports = NodeHelper.create({
       this.relay.writeSync(this.config.relayOffState);
     }
     else if (this.config.relayPIN == false){
-      exec("/opt/vc/bin/tvservice -o", null);
+      if (this.config.useVcgencmd) {
+        exec("vcgencmd display_power 0");
+      }
+      else {
+        exec("/opt/vc/bin/tvservice -o", null);
+      }
     }
   },
 
@@ -52,7 +62,12 @@ module.exports = NodeHelper.create({
       if (this.config.relayPIN) {
         this.relay = new Gpio(this.config.relayPIN, 'out');
         this.relay.writeSync(this.config.relayOnState);
-        exec("/opt/vc/bin/tvservice --preferred && chvt 6 && chvt 7", null);
+        if (this.config.useVcgencmd) {
+          exec("vcgencmd display_power 1");
+        }
+        else {
+          exec("/opt/vc/bin/tvservice --preferred && chvt 6 && chvt 7", null);
+        }
       }
 
       //Detected movement
